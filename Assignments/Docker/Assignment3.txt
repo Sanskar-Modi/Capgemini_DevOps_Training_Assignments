@@ -1,0 +1,34 @@
+Your company is ready to move forward with using Docker to run their applications. However, they have some complex container apps that can take advantage of the cluster management and orchestration features of Docker swarm. You have been asked to stand up a simple Docker swarm cluster to be used for some initial testing. A set of servers has already been provisioned for this purpose. The swarm cluster should meet the following criteria:
+
+One Swarm manager.
+Two worker nodes.
+All nodes should use Docker CE version 5:18.09.5~3-0~ubuntu-bionic.
+Both worker nodes should be joined to the cluster.
+Any non-root user should be able to run docker commands on all three servers.
+
+[NOTE: Write the series of commands to achieve above in this file below the question scenario with documentation]
+
+Good luck!
+
+First of all we have to turn the swarm mode on by swarm init command
+
+Command : docker swarm init
+
+Then, we have to find the manager and worker token by docker swarm join-token
+
+Command : docker swarm join-token manager
+
+docker swarm join --token SWMTKN-1-5rg31twrrlxm2ex87ihia5yyshisi369ndk9zlcbvhp0npjglw-6adygaae9hgh5n4qzygws14kf 192.168.207.128:2377
+
+docker swarm join-token worker
+
+To add a worker to this swarm, run the following command:
+
+Command : docker swarm join --token SWMTKN-1-5rg31twrrlxm2ex87ihia5yyshisi369ndk9zlcbvhp0npjglw-c9ia0jx7zphzu9so0hhcuephn 192.168.207.128:2377
+
+Command : docker swarm join --token SWMTKN-1-5rg31twrrlxm2ex87ihia5yyshisi369ndk9zlcbvhp0npjglw-c9ia0jx7zphzu9so0hhcuephn 192.168.207.128:2377 
+
+To enable any non -root user to run docker commands
+
+usermod -aG docker {$USER}
+

@@ -1,0 +1,353 @@
+Assignment
+
+NOTE: Do not forget to see manual page using "--help" option in command when searching for options/commands for a particular task.
+
+1. Install Docker, either on your native OS or on a VM. Make sure it runs. Type "docker -v" to check if it's installed.
+
+Command : docker -v
+Output : Docker version 19.03.8, build afacb8b7f0
+
+2. Find a image from dockerhub of your choice(recommeded: nginx), don't use browser, pull the official image from dockerhub
+ 
+ To pull an image from docker hub we can use docker image pull or docker pull command 
+ 
+
+Syntax: docker image pull <image name> -- this command will help us to fetch image from the docker registry or dockerhub 
+
+Example : docker image pull nginx 
+
+3. List all the available images in your machine/vm, make sure you see recently pulled image in the list
+
+To find or list all the images present in our machine/vm we can use docker image ls command 
+
+Command  : docker image ls 
+
+Output: 
+REPOSITORY          TAG                 IMAGE ID            CREATED             SIZE
+nginx               latest              9beeba249f3e        12 hours ago        127MB
+
+4. Find out the "Full" ImageId of the image that you pulled and write it below.
+
+To find the full details of an image we can use docker inspect command
+
+Syntax : docker inspect <image name>
+
+Eg : docker inspect nginx 
+
+Output : "sha256:9beeba249f3ee158d3e495a6ac25c5667ae2de8a43ac2a8bfd2bf687a58c06c9"
+
+5. Create a container of your image
+
+Syntax : docker container create <image name>
+
+Command : docker container create nginx
+
+6 . List all the running containers
+
+Command : docker container ls or docker container ps
+
+7 List all the running and stopped containers
+
+Command: docker container ps - a 
+
+8.  Find out the "Full" containerId of the container and write it below
+
+We can find the container id by inspecting the container
+
+Syntax : docker inspect <container_name> or <containerId>
+
+Command: docker inspect  7580f1a183c1
+
+Output : 7580f1a183c15ebc1130335e31102df0c99b987208c8a4b0b9de5ef160ea4a7c
+
+9. Find out how many image layers are used to build this image
+
+To find out how many image layers are used to build this image use docker inspect command 
+
+Syntax : docker inspect <image name > or <image id>
+
+Command : docker inspect nginx 
+
+Output : "Layers": [
+                "sha256:ffc9b21953f4cd7956cdf532a5db04ff0a2daa7475ad796f1bad58cfbaf77a07",
+                "sha256:2f4accd375d93db49e5a47c9bebe4e0dd3cef35f765f5cd36840a986435affc9",
+                "sha256:6c7de695ede33d90077f01d60ec29e6a51552a3e350757018ff1b1ecd6cee0bf"
+            ]
+
+Total 3 layers were used to build this image
+
+10. Get the Apache Tomcat 7 server image from the docker hub.
+
+Command :  docker image pull tomcat:7.0.103
+
+11. Run the Apache Tomcat 7, I mean create a container of Apache Tomcat
+
+Command : docker container run -d tomcat:7.0.103
+
+12. Find out what is the IP Address of the Apache Tomcat Container that it is running on
+
+To get the IP address of the container we can get it by inspecting the container by docker inspect command 
+
+Syntax : docker container inspect <container_name> or <containerId>
+
+Command : docker container inspect 511d78adf36c 
+
+IP Address : 172.17.0.2
+
+13. Which Port it is using?
+
+We can get the info by docker container ls command it has many attributes and port is one of the attribute 
+
+Port: 8080/tcp
+
+14. Try to access the Tomcat's home page from your machine/vm
+
+To run the homepage first run the container in background and serve using curl command
+
+Command : docker run -d -p 8080:8080 tomcat:7.0.103 
+
+after the container starts running serve it using curl command
+
+Command : curl localhost:8080
+
+15. What is the disk size of Apache Tomcat image?
+
+We can get the info by docker image ls command it has many attributes and size is one of the attribute 
+
+Size: 523MB 
+
+16. Find out list of all environment variables that is configured for tomcat image, can you see JAVA_HOME and CATALINA_HOME? What did you notice about it?
+
+To find out env variables we can find out by inspecting the image using docker inspect command
+
+Syntax : docker inspect <image name>
+
+Command : docker inspect tomcat:7.0.103
+
+Output: 
+
+"Env": [
+                "PATH=/usr/local/tomcat/bin:/usr/local/openjdk-8/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin",
+                "LANG=C.UTF-8",
+                "JAVA_HOME=/usr/local/openjdk-8",
+                "JAVA_VERSION=8u252",
+                "JAVA_BASE_URL=https://github.com/AdoptOpenJDK/openjdk8-upstream-binaries/releases/download/jdk8u252-b09/OpenJDK8U-jdk_",
+                "JAVA_URL_VERSION=8u252b09",
+                "CATALINA_HOME=/usr/local/tomcat",
+                "TOMCAT_NATIVE_LIBDIR=/usr/local/tomcat/native-jni-lib",
+                "LD_LIBRARY_PATH=/usr/local/tomcat/native-jni-lib",
+                "GPG_KEYS=05AB33110949707C93A279E3D3EFE6B686867BA6 07E48665A34DCAFAE522E5E6266191C37C037D42 47309207D818FFD8DCD3F83F1931D684307A10A5 541FBE7D8F78B25E055DDEE13C370389288584E7 61B832AC2F1C5A90F0F9B00A1C506407564C17A3 713DA88BE50911535FE716F5208B0AB1D63011C7 79F7026C690BAA50B92CD8B66A3AD3F4F22C4FED 9BA44C2621385CB966EBA586F72C284D731FABEE A27677289986DB50844682F8ACB77FC2E86E29AC A9C5DF4D22E99998D9875A5110C01C5A2F6059E7 DCFD35E0BF8CA7344752DE8B6FB21E8933C60243 F3A04C595DB5B6A5F1ECA43E3B7BBB100D811BBE F7DA48BB64BCB84ECBA7EE6935CD23C10D498E23",
+                "TOMCAT_MAJOR=7",
+                "TOMCAT_VERSION=7.0.103",
+                "TOMCAT_SHA512=3a02bf074fd5a00e751b1229cffdf7c7d9ee52ab825ddecb1e5b766d40999f08be5d3758704333a922c593b139bce51feb8b33924731aacf3acebba8beb5cce8"
+            ],
+
+
+17. Find out which port is exposed for tomcat?
+
+To find the port exposed we can get it by docker inspect command 
+
+Syntax : docker inspect<image name>
+
+Command : docker inspect tomcat:7.0.103
+
+Output: 
+ExposedPorts": {
+                "8080/tcp": {}
+
+18. Run multiple containers of tomcat on different port and access it's home page
+
+To run the homepage first run the container in background and serve using curl command
+
+Command : docker run -d -p 8080:8080 tomcat:7.0.103 
+
+after the container starts running serve it using curl command
+
+Command : curl localhost:8080
+
+To run the homepage first run the container in background and serve using curl command
+
+Command : docker run -d -p 8080:8081 tomcat:7.0.103 
+
+after the container starts running serve it using curl command
+
+Command : curl localhost:8081
+
+19. Pull ubuntu os from dockerhub, try to pull 2 images of ubuntu, Except the latest one.
+
+We can pull an image from dockerhub or docker registry by using docker pull command 
+
+Syntax : docker pull <image name>
+
+Command : docker pull ubuntu:groovy
+		 docker pull ubuntu:devel
+		 
+20. Run the container of ubuntu in attached mode
+
+docker run command is used to run a container
+
+Syntax : docker container run <image name>
+
+Command : docker container run ubuntu:groovy
+
+21. Run the container of another ubuntu in detached mode
+
+-d flag is used with docker container run command to run the container in detached mode 
+
+Syntax : docker container run -d <image name>
+
+Command : docker container run -d ubuntu:groovy	 
+
+22. Check how many ubuntu containers are running and stopped
+
+We can check the number of running and stopped conntainers using docker container ps -a
+
+Command : docker container ps -a
+
+23. Is the tomcat container running? If no, start one.
+ 
+Yes it is running
+
+24. Check the logs, generated by tomcat container(don't forget to make request to tomcat's home page to see the log).
+
+
+
+25. Check if ubuntu conatiner is running? If no, start one in attached mode to the terminal.
+
+Command : docker conatiner run ubuntu:groovy
+
+26. Login as root user in ubuntu container
+
+docker exec -it command is used to run the container in interactive mode
+
+Command : docker exec -it ubuntu:groovy su
+
+27. Create a file with any name in root directory
+
+Command : docker exec -it ubuntu:groovy sh 
+
+echo "Hello world" > sanskar
+
+
+
+28. Install software of your choice in ubuntu container using "apt-get install"
+
+apt get-install nano
+
+29. Now exit the ubuntu shell, are you back to your host machine, if not, come back to the host machine
+
+press exit in the shell to exit from the container and get back to the host machine
+
+Command : exit 
+
+30. Check if the ubuntu container is running.
+ 
+ Command : docker container ps
+
+31. Create a new ubuntu container out of the same image as that previous container in attached mode.
+
+Command : docker container run ubuntu:groovy 
+
+32 Login as a root user
+
+docker run -it ubuntu:groovy su 
+
+33. Check if you can see the file created in previous container, you will not see the file as well as software that you installed in the previous container. Now kill this Container.
+
+No we cannot see the software installed 
+
+34. Do you have the previous ubuntu container where you created the file and installed the software? If no reapeat step 25 to 29.
+ 
+ Yes
+ 
+35. Create an Image out of the existing container.
+
+Command : docker commit f09f98d7e26c myubuntu
+
+36. Now Create a Container out of this image and login into it to see if you can see the file and software installed by you in the previous container.
+
+Command : docker run -it myubuntu su
+ 
+ Now pass ls to see the files in the conatiner
+
+we can see the files which was present in the previous conatiner
+
+37. Do you have running tomcat container? If yes, Stop it and kill all tomcat container.
+
+No
+
+To see the running conatiner 
+
+Command : docker ps
+
+38. Create an index.html file with following code in it:-
+	<h1>This is Tomcat Container</h1>
+Now, Start a tomcat container in such a way that on hitting its URL for home page it should show the above html page.
+
+Command  : docker run -it tomcat:7.0.103 sh 
+
+Now create the file index.html
+cd webapps
+mkdir hmtl
+cd html
+touch index.html
+echo " <h1> This is a tomcat conatiner </h1>" >>index.html
+
+Now pass the command
+
+Command : curl localhost:8080/index.html
+
+
+39. type below command:-
+	docker images --help
+Now, try to run command that proves the concept of following three options:-
+1. -a
+2. -f
+3. -q
+
+write atleast 1 command using each option above and prove their concepts as described in the --help.
+
+-a, --all             Show all images (default hides intermediate images)
+
+Command : docker images -a
+ 
+  -f, --filter filter   Filter output based on conditions provided
+      --format string   Pretty-print images using a Go template
+      --no-trunc        Don't truncate output
+	  
+Command : docker images --no-trunc
+	  
+  -q, --quiet           Only show numeric IDs
+  
+  Command : docker images -q
+
+
+
+40. type below command:-
+	docker ps --help
+Now, try to run command that proves the concept of following six options:-
+1.-a, --all             Show all containers (default shows just running)
+
+Command : docker ps -a 
+
+2.-f, --filter filter   Filter output based on conditions provided
+      --format string   Pretty-print containers using a Go template
+	   
+Command : docker ps -f id=f
+	   
+3. -q, --quiet           Only display numeric IDs
+
+Command : docker ps -q
+
+4. -n, --last int        Show n last created containers (includes all states) (default -1)
+
+Command : docker ps -n 4
+
+5. -l, --latest          Show the latest created container (includes all states)
+
+Command : docker ps - l 
+
+6. -s, --size            Display total file sizes
+
+Command : docker ps - s
+  
