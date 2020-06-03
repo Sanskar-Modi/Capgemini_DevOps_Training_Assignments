@@ -100,7 +100,7 @@ resource "random_id" "tf_bucket_id" {
 
 resource "aws_s3_bucket" "tf_code" {
   count = "${var.number_of_instances}"
-  bucket = "${var.project_name}-${random_id.tf_bucket_id.dec[count.index]}"
+  bucket = "${var.project_name}-${random_id.tf_bucket_id.*.dec[count.index]}"
   acl    = "private"
 
   force_destroy = true
@@ -116,7 +116,7 @@ Now create output.tf
 Command : vi output.tf
 
 output "bucketname" {
-  value = "${join(",",aws_s3_bucket.tf_code.id)}"
+  value = "${join(",",aws_s3_bucket.tf_code.*.id)}"
 }
 
 
