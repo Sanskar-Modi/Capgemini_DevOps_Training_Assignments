@@ -1,0 +1,37 @@
+Create a file called main.tf.
+Create a docker image resource and call it nginx_image.
+Set the name of the image to nginx:latest.
+Save and exit the file.
+
+Initialize Terraform.
+Plan the deploy and output a terraform plan called tf_image_plan.
+Apply the plan using tf_image_pla
+
+
+--
+
+Create a terrraform file 
+
+Command : vi main.tf 
+
+main.tf 
+
+provider "docker" {
+  
+  host = "tcp://192.168.207.131:4243"  
+}
+
+resource "docker_image" "nginx_image" {
+
+ name = "nginx:latest"
+ 
+}
+
+
+Plan the tf file 
+
+Command : terraform plam -out tf_image_plan 
+
+Now Apply the plan 
+
+Command : terraform apply tf_image_plan
